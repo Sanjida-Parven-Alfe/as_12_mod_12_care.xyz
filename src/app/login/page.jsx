@@ -8,13 +8,10 @@ export const metadata = {
 
 const LoginPage = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 py-10 px-4">
-      <div className="w-full max-w-sm">
-        <Suspense fallback={<div className="text-center">Loading Login Form...</div>}>
-           {/* Login Form Component */}
+    <div className="w-full">
+        <Suspense fallback={<div className="text-center p-10">Loading...</div>}>
            <LoginForm />
         </Suspense>
-      </div>
     </div>
   );
 };

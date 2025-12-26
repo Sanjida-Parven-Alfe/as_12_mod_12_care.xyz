@@ -15,20 +15,23 @@ export const authOptions = {
       async authorize(credentials) {
         const { email, password } = credentials;
         
-        const db = await dbConnect("users");
-        const user = await db.findOne({ email });
+        try {
+          const usersCollection = await dbConnect("users");
+          const user = await usersCollection.findOne({ email });
 
-        if (!user) {
-          throw new Error("No user found with this email");
+          if (!user) {
+            throw new Error("No user found");
+          }
+
+          const passwordMatch = await bcrypt.compare(password, user.password);
+          if (!passwordMatch) {
+            throw new Error("Password mismatch");
+          }
+
+          return user;
+        } catch (error) {
+          throw new Error(error.message);
         }
-
-
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-          throw new Error("Password did not match");
-        }
-
-        return user;
       },
     }),
   ],
@@ -36,23 +39,34 @@ export const authOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user._id;
-        token.role = user.role;
+    async signIn({ user, account }) {
+      if (account.provider === "google") {
+        try {
+          const { name, email, image } = user;
+          const usersCollection = await dbConnect("users");
+          const userExists = await usersCollection.findOne({ email });
+
+          if (!userExists) {
+            await usersCollection.insertOne({
+              name,
+              email,
+              image,
+              provider: "google",
+              role: "user",
+              createdAt: new Date(),
+            });
+          }
+          return true;
+        } catch (error) {
+          console.log("Google Login Error:", error);
+          return false;
+        }
       }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-      }
-      return session;
+      return true;
     },
   },
   pages: {
-    signIn: "/login", 
+    signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

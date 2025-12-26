@@ -1,27 +1,35 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
+const uri = process.env.MONGODB_URI;
+
+if (!uri) {
+  throw new Error("Invalid/Missing environment variable: 'MONGODB_URI'");
+}
+
+const options = {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+};
+
+let client;
+let clientPromise;
+
+if (process.env.NODE_ENV === "development") {
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri, options);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  client = new MongoClient(uri, options);
+  clientPromise = client.connect();
+}
+
 export const dbConnect = async (collectionName) => {
-  const uri = process.env.MONGODB_URI;
-  
-  if (!uri) {
-    throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
-  }
-
-  const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    },
-  });
-
-  try {
-    // Connect the client to the server
-    await client.connect();
-    // Return the specific collection
-    return client.db(process.env.DB_NAME).collection(collectionName);
-  } catch (error) {
-    console.error("Database connection error:", error);
-    throw error;
-  }
+  const client = await clientPromise;
+  const db = client.db(process.env.DB_NAME);
+  return db.collection(collectionName);
 };

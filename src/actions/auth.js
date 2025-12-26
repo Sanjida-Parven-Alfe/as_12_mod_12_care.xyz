@@ -2,36 +2,40 @@
 import { dbConnect } from "@/lib/dbConnect";
 import bcrypt from "bcryptjs";
 
-export const registerUser = async (payload) => {
-  const { email, password, name, nid, contactNo, image } = payload;
-
+export const registerUser = async (data) => {
   try {
-    const db = await dbConnect("users"); 
-
-    const existingUser = await db.findOne({ email });
+    const usersCollection = await dbConnect("users");
+    
+    // Check if user already exists
+    const existingUser = await usersCollection.findOne({ email: data.email });
+    
     if (existingUser) {
-      return { success: false, message: "User already exists with this email." };
+      return { success: false, message: "Email already exists" };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash Password
+    const hashedPassword = await bcrypt.hash(data.password, 10);
 
+    // Prepare User Data
     const newUser = {
-      name,
-      email,
+      name: data.name,
+      email: data.email,
       password: hashedPassword,
-      nid,          
-      contactNo,   
-      image: image || "",
-      role: "user",
+      nid: data.nid,
+      contactNo: data.contactNo,
+      role: "user", // Default role
       provider: "credentials",
+      image: "", // Default empty image
       createdAt: new Date(),
     };
 
-    await db.insertOne(newUser);
-    return { success: true, message: "User registered successfully!" };
-    
+    // Insert into DB
+    await usersCollection.insertOne(newUser);
+
+    return { success: true, message: "User registered successfully" };
+
   } catch (error) {
     console.error("Registration Error:", error);
-    return { success: false, message: "Something went wrong." };
+    return { success: false, message: "Something went wrong" };
   }
 };
