@@ -1,0 +1,23 @@
+[
+    {
+      "id": 1,
+      "title": "Baby Sitting & Child Care",
+      "description": "Experienced caregivers to look after your little ones with love and safety. We ensure a nurturing environment for their growth.",
+      "image": "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "slug": "baby-care"
+    },
+    {
+      "id": 2,
+      "title": "Elderly Care & Companionship",
+      "description": "Dedicated support for seniors, assisting with daily activities, medication reminders, and providing joyful companionship.",
+      "image": "https://plus.unsplash.com/premium_photo-1661281397737-9b5d75b52beb?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "slug": "elderly-care"
+    },
+    {
+      "id": 3,
+      "title": "Special Needs & Sick Care",
+      "description": "Professional assistance for sick or special needs family members right at home, ensuring comfort and proper attention.",
+      "image": "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1468&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "slug": "sick-care"
+    }
+  ]
