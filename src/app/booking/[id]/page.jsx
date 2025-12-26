@@ -3,8 +3,6 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { FaCalendarAlt, FaClock, FaMapMarkerAlt, FaCheckCircle, FaMoneyBillWave } from "react-icons/fa";
 
-// এই অংশটি আপনার আসল ডেটা দিয়ে প্রতিস্থাপন করতে হবে।
-// উদাহরণস্বরূপ, আপনি এখানে API কল করে সার্ভিসের ডেটা নিয়ে আসতে পারেন।
 const dummyService = {
   title: "Elderly Care & Companionship",
   description:
@@ -21,17 +19,15 @@ const dummyService = {
 };
 
 const BookingPage = ({ params }) => {
-  // এখানে আপনি params.id ব্যবহার করে আসল সার্ভিসের ডেটা ফেচ করবেন
   const serviceData = dummyService;
 
   const [date, setDate] = useState("");
-  const [duration, setDuration] = useState(2); // ডিফল্ট ২ ঘণ্টা
+  const [duration, setDuration] = useState(2); 
   const [division, setDivision] = useState("");
   const [district, setDistrict] = useState("");
   const [address, setAddress] = useState("");
   const [totalCost, setTotalCost] = useState(0);
 
-  // যখনই duration বা rate পরিবর্তন হবে, টোটাল কস্ট আপডেট হবে
   useEffect(() => {
     const cost = duration * serviceData.rate;
     setTotalCost(cost);
@@ -42,13 +38,13 @@ const BookingPage = ({ params }) => {
     if (!isNaN(val) && val > 0) {
       setDuration(val);
     } else {
-      setDuration(1); // সর্বনিম্ন ১ ঘণ্টা
+      setDuration(1);
     }
   };
 
   const handleBooking = (e) => {
       e.preventDefault();
-      // এখানে বুকিং সাবমিট করার লজিক থাকবে
+
       console.log({ date, duration, division, district, address, totalCost });
       alert("Booking Confirmed!");
   };
@@ -58,7 +54,6 @@ const BookingPage = ({ params }) => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
           
-          {/* বাম পাশ - সার্ভিস ডিটেইলস কার্ড */}
           <div className="lg:w-5/12">
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden sticky top-24">
               <div className="relative h-64 sm:h-80">
@@ -109,7 +104,6 @@ const BookingPage = ({ params }) => {
             </div>
           </div>
 
-          {/* ডান পাশ - বুকিং ফর্ম */}
           <div className="lg:w-7/12">
             <div className="bg-white rounded-2xl shadow-xl p-8">
               <div className="mb-8">
@@ -171,7 +165,6 @@ const BookingPage = ({ params }) => {
                       <option value="">Select Division</option>
                       <option value="Dhaka">Dhaka</option>
                       <option value="Chattogram">Chattogram</option>
-                      {/* আরও বিভাগ যোগ করুন */}
                     </select>
                   </div>
 
@@ -190,7 +183,6 @@ const BookingPage = ({ params }) => {
                       <option value="">Select District</option>
                       <option value="Dhaka">Dhaka</option>
                       <option value="Gazipur">Gazipur</option>
-                      {/* আরও জেলা যোগ করুন */}
                     </select>
                   </div>
                 </div>
