@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🏥 Care.xyz - Trusted Family Care Service Platform
 
-## Getting Started
+**Care.xyz** is a full-stack web application designed to simplify the process of finding and booking professional care services. Whether it's **Baby Care**, **Elderly Care**, or **Sick Support**, this platform connects users with reliable caregivers through a secure and user-friendly interface.
 
-First, run the development server:
+🌐 **Live Demo:** [Visit Care.xyz](https://care-xyz-199.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📸 Project Overview
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+This project is built using **Next.js (App Router)** and **MongoDB**, focusing on a seamless booking experience. It features secure authentication, dynamic service management, and a user dashboard to track bookings.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## ✨ Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- **🔐 Secure Authentication:**
+  - User registration and login using **Email/Password** (with Bcrypt hashing).
+  - Social Login integration with **Google** (via NextAuth.js).
+  
+- **🛠 Service Management:**
+  - Browse various care services with detailed descriptions and pricing.
+  - Dynamic routing for individual service details.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **📅 Booking System:**
+  - Users can easily book services for specific dates.
+  - **My Bookings Dashboard:** Users can view their booking history, check status (Pending/Confirmed), and delete/cancel bookings.
+  
+- **🛡️ Security & Protection:**
+  - **Middleware Protection:** Private routes (like Booking Dashboard) are protected and accessible only to logged-in users.
+  - **JWT Sessions:** Secure session management using JSON Web Tokens.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **📱 Responsive Design:**
+  - Fully responsive UI built with **Tailwind CSS**, ensuring a great experience on mobile, tablet, and desktop.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend:** Next.js 14, React.js, Tailwind CSS, DaisyUI.
+- **Backend:** Next.js API Routes (Serverless).
+- **Database:** MongoDB (CRUD Operations).
+- **Authentication:** NextAuth.js, Bcrypt.js.
+- **Deployment:** Vercel.
