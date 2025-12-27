@@ -28,7 +28,16 @@ export const authOptions = {
             throw new Error("Password mismatch");
           }
 
-          return user;
+          // ✅ FIX: MongoDB ObjectId কে String এ কনভার্ট করে রিটার্ন করতে হবে
+          // সরাসরি 'return user' দিলে Vercel এ সমস্যা হয়
+          return {
+            id: user._id.toString(), // _id কে string বানানো হলো
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            role: user.role || "user",
+          };
+
         } catch (error) {
           throw new Error(error.message);
         }
@@ -65,14 +74,13 @@ export const authOptions = {
       }
       return true;
     },
-    // ✅ JWT Callback: ইউজারের ID টোকেনে সেট করা
     async jwt({ token, user }) {
       if (user) {
-        token.id = user._id;
+        // authorize থেকে আমরা 'id' রিটার্ন করেছি, তাই এখানে user.id পাবো
+        token.id = user.id; 
       }
       return token;
     },
-    // ✅ Session Callback: টোকেন থেকে ID সেশনে পাঠানো
     async session({ session, token }) {
       if (token) {
         session.user.id = token.id;
@@ -84,7 +92,5 @@ export const authOptions = {
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  
-  // ✅ Vercel Fix: এটি অবশ্যই থাকতে হবে
   trustHost: true,
 };
