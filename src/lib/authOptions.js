@@ -37,6 +37,7 @@ export const authOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 Days
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -64,9 +65,26 @@ export const authOptions = {
       }
       return true;
     },
+    // ✅ JWT Callback: ইউজারের ID টোকেনে সেট করা
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user._id;
+      }
+      return token;
+    },
+    // ✅ Session Callback: টোকেন থেকে ID সেশনে পাঠানো
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+      }
+      return session;
+    },
   },
   pages: {
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  
+  // ✅ Vercel Fix: এটি অবশ্যই থাকতে হবে
+  trustHost: true,
 };
