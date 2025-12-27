@@ -14,70 +14,44 @@ export const authOptions = {
       credentials: {},
       async authorize(credentials) {
         const { email, password } = credentials;
-        
         try {
-          const usersCollection = await dbConnect("users");
-          const user = await usersCollection.findOne({ email });
+          const db = await dbConnect("users");
+          const user = await db.findOne({ email });
 
           if (!user) {
-            throw new Error("No user found");
+            throw new Error("Invalid Email or Password");
           }
 
+          // পাসওয়ার্ড ম্যাচ করানো
           const passwordMatch = await bcrypt.compare(password, user.password);
           if (!passwordMatch) {
-            throw new Error("Password mismatch");
+            throw new Error("Invalid Email or Password");
           }
 
-          // ✅ FIX: MongoDB ObjectId কে String এ কনভার্ট করে রিটার্ন করতে হবে
-          // সরাসরি 'return user' দিলে Vercel এ সমস্যা হয়
+          // ✅ রিটার্ন করার সময় _id কে string এ কনভার্ট করা জরুরি
           return {
-            id: user._id.toString(), // _id কে string বানানো হলো
+            id: user._id.toString(),
             name: user.name,
             email: user.email,
             image: user.image,
-            role: user.role || "user",
+            role: user.role,
           };
-
         } catch (error) {
-          throw new Error(error.message);
+          console.log("Login Error:", error);
+          // null রিটার্ন করলে NextAuth বুঝবে লগইন ফেইল হয়েছে
+          return null; 
         }
       },
     }),
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 Days
+    maxAge: 30 * 24 * 60 * 60,
   },
   callbacks: {
-    async signIn({ user, account }) {
-      if (account.provider === "google") {
-        try {
-          const { name, email, image } = user;
-          const usersCollection = await dbConnect("users");
-          const userExists = await usersCollection.findOne({ email });
-
-          if (!userExists) {
-            await usersCollection.insertOne({
-              name,
-              email,
-              image,
-              provider: "google",
-              role: "user",
-              createdAt: new Date(),
-            });
-          }
-          return true;
-        } catch (error) {
-          console.log("Google Login Error:", error);
-          return false;
-        }
-      }
-      return true;
-    },
     async jwt({ token, user }) {
       if (user) {
-        // authorize থেকে আমরা 'id' রিটার্ন করেছি, তাই এখানে user.id পাবো
-        token.id = user.id; 
+        token.id = user.id; // authorize থেকে পাওয়া id
       }
       return token;
     },
