@@ -1,8 +1,12 @@
 import React from "react";
-import servicesData from "@/data/services.json"; // Import dummy data
 import ServiceCard from "./ServiceCard";
+import { dbConnect } from "@/lib/dbConnect";
 
-const ServicesSection = () => {
+
+const ServicesSection = async () => {
+  const db = await dbConnect("services");
+  const services = await db.find().toArray();
+
   return (
     <section className="py-20 px-5 md:px-10 bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -13,8 +17,9 @@ const ServicesSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {servicesData.map(service => (
-                <ServiceCard key={service.id} service={service} />
+          
+            {services.map(service => (
+                <ServiceCard key={service._id.toString()} service={service} />
             ))}
         </div>
       </div>

@@ -5,13 +5,14 @@ import { createBooking } from "@/actions/booking";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FaMapMarkerAlt, FaClock, FaCalendarAlt, FaSpinner } from "react-icons/fa";
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 
 const divisions = ["Dhaka", "Chittagong", "Sylhet", "Khulna", "Rajshahi", "Barisal", "Rangpur", "Mymensingh"];
 const districts = {
   Dhaka: ["Dhaka", "Gazipur", "Narayanganj", "Tangail"],
   Chittagong: ["Chittagong", "Cox's Bazar", "Comilla"],
   Sylhet: ["Sylhet", "Moulovibazar"],
+
 };
 
 const BookingForm = ({ service }) => {
@@ -38,8 +39,9 @@ const BookingForm = ({ service }) => {
     setLoading(true);
 
     const bookingData = {
-      serviceId: service.id,
-      serviceName: service.title,
+    
+      serviceTitle: service.title, 
+      serviceId: service.id || service._id, 
       image: service.image,
       userEmail: session?.user?.email,
       userName: session?.user?.name,
@@ -57,7 +59,7 @@ const BookingForm = ({ service }) => {
         timer: 2000,
         showConfirmButton: false
       });
-      router.push("/"); 
+      router.push("/my-bookings"); 
     } else {
       Swal.fire("Error", response.message, "error");
     }
@@ -78,7 +80,7 @@ const BookingForm = ({ service }) => {
                     <input 
                         type="date" 
                         {...register("date", { required: true })} 
-                        className="input input-bordered w-full pl-10 bg-gray-50 focus:bg-white focus:border-primary text-gray-800" 
+                        className="input input-bordered w-full pl-10 bg-gray-50 focus:bg-white focus:border-rose-500 text-gray-800" 
                     />
                 </div>
                 {errors.date && <span className="text-red-500 text-xs mt-1">Date is required</span>}
@@ -95,7 +97,7 @@ const BookingForm = ({ service }) => {
                         min="1" 
                         {...register("duration", { required: true })} 
                         placeholder="Ex: 2" 
-                        className="input input-bordered w-full pl-10 bg-gray-50 focus:bg-white focus:border-primary text-gray-800" 
+                        className="input input-bordered w-full pl-10 bg-gray-50 focus:bg-white focus:border-rose-500 text-gray-800" 
                     />
                 </div>
                 {errors.duration && <span className="text-red-500 text-xs mt-1">Duration required</span>}
@@ -107,7 +109,7 @@ const BookingForm = ({ service }) => {
             <div className="form-control">
                 <label className="label font-semibold text-gray-700">Division</label>
                 <select 
-                    className="select select-bordered w-full bg-gray-50 focus:bg-white focus:border-primary text-gray-800"
+                    className="select select-bordered w-full bg-gray-50 focus:bg-white focus:border-rose-500 text-gray-800"
                     {...register("division", { 
                         required: true,
                         onChange: (e) => setSelectedDivision(e.target.value) 
@@ -122,7 +124,7 @@ const BookingForm = ({ service }) => {
             <div className="form-control">
                 <label className="label font-semibold text-gray-700">District</label>
                 <select 
-                    className="select select-bordered w-full bg-gray-50 focus:bg-white focus:border-primary text-gray-800"
+                    className="select select-bordered w-full bg-gray-50 focus:bg-white focus:border-rose-500 text-gray-800"
                     {...register("district", { required: true })}
                 >
                     <option value="">Select District</option>
@@ -144,22 +146,21 @@ const BookingForm = ({ service }) => {
                 <textarea 
                     {...register("address", { required: true })} 
                     placeholder="House No, Road No, Area details..." 
-                    className="textarea textarea-bordered w-full pl-10 bg-gray-50 focus:bg-white focus:border-primary text-gray-800 h-24" 
+                    className="textarea textarea-bordered w-full pl-10 bg-gray-50 focus:bg-white focus:border-rose-500 text-gray-800 h-24" 
                 ></textarea>
             </div>
             {errors.address && <span className="text-red-500 text-xs mt-1">Address is required</span>}
         </div>
 
-        {/* Total Cost Display */}
-        <div className="bg-gray-800 text-white p-4 rounded-xl flex justify-between items-center shadow-lg">
+        <div className="bg-gray-900 text-white p-5 rounded-xl flex justify-between items-center shadow-lg mt-4">
             <span className="text-lg font-medium">Total Cost:</span>
-            <span className="text-2xl font-bold text-green-400">{totalCost} BDT</span>
+            <span className="text-3xl font-bold text-rose-500">{totalCost} BDT</span>
         </div>
 
-        {/* Submit Button */}
+    
         <button 
             disabled={loading} 
-            className="btn btn-primary w-full text-white text-lg font-bold shadow-lg hover:shadow-xl transition-all"
+            className="w-full py-4 mt-6 bg-rose-600 hover:bg-rose-700 text-white text-lg font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all transform hover:scale-[1.02] active:scale-95 flex justify-center items-center gap-2"
         >
             {loading ? <FaSpinner className="animate-spin" /> : "Confirm Booking"}
         </button>

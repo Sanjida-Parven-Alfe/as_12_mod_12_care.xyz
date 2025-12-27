@@ -44,7 +44,6 @@ const MyBookings = () => {
         });
         const data = await res.json();
         if (data.status) {
-
           const remaining = bookings.filter((booking) => booking._id !== id);
           setBookings(remaining);
           alert("Booking Cancelled Successfully!");
@@ -98,10 +97,13 @@ const MyBookings = () => {
                   {bookings.map((item) => (
                     <tr key={item._id} className="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none">
                       
-                      {/* Service Name & Location */}
+                   
                       <td className="py-4 pl-6">
                         <div className="flex flex-col">
-                          <span className="text-gray-900 font-bold text-base">{item.serviceTitle || "Service Name"}</span>
+                          
+                          <span className="text-gray-900 font-bold text-base">
+                            {item.serviceTitle || item.serviceName || "Service Name Unavailable"}
+                          </span>
                           <span className="flex items-center gap-1 text-gray-400 text-xs mt-1">
                             <FaMapMarkerAlt /> {item.address?.substring(0, 25)}...
                           </span>
@@ -146,7 +148,7 @@ const MyBookings = () => {
                       <td className="text-center">
                         <div className="flex items-center justify-center gap-3">
                           
-                  
+                          {/* View Details Button (Optional Link) */}
                           <Link href={`/booking/details/${item._id}`}>
                             <button className="btn btn-sm btn-circle btn-ghost text-blue-500 hover:bg-blue-50 tooltip" data-tip="View Details">
                               <FaEye size={16} />
@@ -170,7 +172,7 @@ const MyBookings = () => {
             </div>
           </div>
         ) : (
-        
+          
           <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100">
             <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
               <FaCalendarAlt className="text-gray-300 text-4xl" />

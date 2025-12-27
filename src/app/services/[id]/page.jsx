@@ -2,11 +2,12 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCheckCircle, FaArrowLeft } from "react-icons/fa";
-import servicesData from "@/data/services.json";
+import { dbConnect } from "@/lib/dbConnect";
 
 export async function generateMetadata({ params }) {
-  const { id } = await params; 
-  const service = servicesData.find((s) => s.slug === id);
+  const { id } = await params;
+  const db = await dbConnect("services");
+  const service = await db.findOne({ slug: id });
   
   return {
     title: service ? `${service.title} - Care.xyz` : "Service Not Found",
@@ -15,11 +16,9 @@ export async function generateMetadata({ params }) {
 }
 
 const ServiceDetails = async ({ params }) => {
-  const { id } = await params;
-  
-
-  const service = servicesData.find((s) => s.slug === id);
-
+  const { id } = await params; 
+  const db = await dbConnect("services");
+  const service = await db.findOne({ slug: id });
 
   if (!service) {
     return (
@@ -30,42 +29,27 @@ const ServiceDetails = async ({ params }) => {
     );
   }
 
-  const { title, description, image, price, features } = service;
+  const { _id, title, description, image, price, features } = service;
 
   return (
     <div className="py-20 px-5 md:px-10 bg-base-100 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        
-        {/* Back Button */}
         <Link href="/" className="flex items-center gap-2 text-gray-500 hover:text-primary mb-8 font-semibold w-fit">
            <FaArrowLeft /> Back to Home
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          
-          {/* Left Side: Image */}
           <div className="relative h-[400px] lg:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-            <Image 
-              src={image} 
-              alt={title} 
-              fill 
-              className="object-cover hover:scale-105 transition-transform duration-500"
-            />
+            <Image src={image} alt={title} fill className="object-cover hover:scale-105 transition-transform duration-500" />
           </div>
 
-          {/* Right Side: Details Info */}
           <div className="space-y-6">
             <h1 className="text-4xl font-bold text-gray-800">{title}</h1>
-            
             <p className="text-xl text-primary font-bold bg-primary/10 w-fit px-4 py-2 rounded-lg">
-              Price: {price} BDT <span className="text-sm font-normal text-gray-600">/ hour (Approx)</span>
+              Price: {price} BDT <span className="text-sm font-normal text-gray-600">/ hour</span>
             </p>
+            <p className="text-gray-600 text-lg leading-relaxed">{description}</p>
 
-            <p className="text-gray-600 text-lg leading-relaxed">
-              {description}
-            </p>
-
-            {/* Features List */}
             <div className="bg-gray-50 p-6 rounded-xl border border-gray-100">
               <h3 className="text-xl font-bold mb-4 text-gray-800">What's Included?</h3>
               <ul className="space-y-3">
@@ -78,17 +62,11 @@ const ServiceDetails = async ({ params }) => {
               </ul>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link 
-                href={`/booking/${service.id}`} 
-                className="btn btn-primary btn-lg w-full sm:w-auto text-white shadow-lg shadow-primary/30"
-              >
+            
+              <Link href={`/booking/${_id.toString()}`} className="btn btn-primary btn-lg w-full sm:w-auto text-white shadow-lg">
                 Book This Service
               </Link>
-              <button className="btn btn-outline btn-secondary btn-lg w-full sm:w-auto">
-                Contact Support
-              </button>
             </div>
           </div>
         </div>
