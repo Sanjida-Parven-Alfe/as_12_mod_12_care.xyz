@@ -18,7 +18,7 @@ const BookingDetailsPage = ({ params }) => {
     const fetchBookingDetails = async () => {
       if (!id) return;
       try {
-        // FIX: localhost সরানো হয়েছে
+  
         const res = await fetch(`/api/booking/details/${id}`);
         const data = await res.json();
         if (data.status) {

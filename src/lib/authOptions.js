@@ -22,15 +22,13 @@ export const authOptions = {
             throw new Error("User not found");
           }
 
-          // পাসওয়ার্ড ম্যাচ করানো
           const match = await bcrypt.compare(password, user.password);
           if (!match) {
-             // পাসওয়ার্ড ভুল হলে null রিটার্ন করলে NextAuth বুঝবে এরর হয়েছে
              return null;
           }
 
           return {
-            id: user._id.toString(), // _id কে String বানাচ্ছি
+            id: user._id.toString(), 
             name: user.name,
             email: user.email,
             image: user.image,

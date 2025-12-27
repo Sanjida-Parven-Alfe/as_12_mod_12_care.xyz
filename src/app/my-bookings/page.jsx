@@ -20,7 +20,7 @@ const MyBookings = () => {
   const fetchBookings = async () => {
     if (session?.user?.email) {
       try {
-        // FIX: localhost সরানো হয়েছে
+  
         const res = await fetch(`/api/my-bookings/${session.user.email}`);
         const data = await res.json();
         setBookings(data.bookings);
@@ -40,7 +40,6 @@ const MyBookings = () => {
     const confirm = window.confirm("Are you sure you want to cancel this booking?");
     if (confirm) {
       try {
-        // FIX: localhost সরানো হয়েছে
         const res = await fetch(`/api/booking/delete/${id}`, {
           method: "DELETE",
         });

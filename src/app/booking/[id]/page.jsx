@@ -18,7 +18,7 @@ const BookingPage = ({ params }) => {
     const fetchService = async () => {
       if (!id) return;
       try {
-        // FIX: localhost সরানো হয়েছে, এখন এটি লাইভ লিংকে কাজ করবে
+
         const res = await fetch(`/api/services/${id}`);
         const data = await res.json();
         if(data.service){
