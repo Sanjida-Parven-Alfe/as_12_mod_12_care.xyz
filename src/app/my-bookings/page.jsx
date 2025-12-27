@@ -20,7 +20,8 @@ const MyBookings = () => {
   const fetchBookings = async () => {
     if (session?.user?.email) {
       try {
-        const res = await fetch(`http://localhost:3000/api/my-bookings/${session.user.email}`);
+        // FIX: localhost সরানো হয়েছে
+        const res = await fetch(`/api/my-bookings/${session.user.email}`);
         const data = await res.json();
         setBookings(data.bookings);
         setLoading(false);
@@ -39,7 +40,8 @@ const MyBookings = () => {
     const confirm = window.confirm("Are you sure you want to cancel this booking?");
     if (confirm) {
       try {
-        const res = await fetch(`http://localhost:3000/api/booking/delete/${id}`, {
+        // FIX: localhost সরানো হয়েছে
+        const res = await fetch(`/api/booking/delete/${id}`, {
           method: "DELETE",
         });
         const data = await res.json();
@@ -97,10 +99,8 @@ const MyBookings = () => {
                   {bookings.map((item) => (
                     <tr key={item._id} className="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-none">
                       
-                   
                       <td className="py-4 pl-6">
                         <div className="flex flex-col">
-                          
                           <span className="text-gray-900 font-bold text-base">
                             {item.serviceTitle || item.serviceName || "Service Name Unavailable"}
                           </span>
@@ -148,7 +148,7 @@ const MyBookings = () => {
                       <td className="text-center">
                         <div className="flex items-center justify-center gap-3">
                           
-                          {/* View Details Button (Optional Link) */}
+                          {/* View Details Button */}
                           <Link href={`/booking/details/${item._id}`}>
                             <button className="btn btn-sm btn-circle btn-ghost text-blue-500 hover:bg-blue-50 tooltip" data-tip="View Details">
                               <FaEye size={16} />

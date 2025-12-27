@@ -14,12 +14,12 @@ const BookingDetailsPage = ({ params }) => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchBookingDetails = async () => {
       if (!id) return;
       try {
-        const res = await fetch(`http://localhost:3000/api/booking/details/${id}`);
+        // FIX: localhost সরানো হয়েছে
+        const res = await fetch(`/api/booking/details/${id}`);
         const data = await res.json();
         if (data.status) {
           setBooking(data.booking);
@@ -34,7 +34,6 @@ const BookingDetailsPage = ({ params }) => {
     fetchBookingDetails();
   }, [id]);
 
-
   const handlePrint = () => {
     window.print();
   };
@@ -46,7 +45,6 @@ const BookingDetailsPage = ({ params }) => {
     <div className="bg-gray-100 min-h-screen py-10 px-4">
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
         
-    
         <div className="bg-rose-600 p-8 text-white flex justify-between items-center print:hidden">
           <Link href="/my-bookings" className="flex items-center gap-2 hover:text-gray-200 font-medium transition-colors">
             <FaArrowLeft /> Back to List
@@ -57,7 +55,6 @@ const BookingDetailsPage = ({ params }) => {
           </button>
         </div>
 
-  
         <div className="bg-gray-50 px-8 py-4 border-b flex justify-between items-center">
             <p className="text-gray-500 text-sm">Booking ID: <span className="font-mono text-gray-700 font-bold">#{booking._id}</span></p>
             <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide
@@ -71,7 +68,6 @@ const BookingDetailsPage = ({ params }) => {
 
         <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
           
-      
           <div className="space-y-6">
             <h2 className="text-xl font-bold text-gray-800 border-b pb-2">Service Details</h2>
             
@@ -97,7 +93,6 @@ const BookingDetailsPage = ({ params }) => {
             </div>
           </div>
 
-         
           <div className="space-y-6">
             <h2 className="text-xl font-bold text-gray-800 border-b pb-2">Customer Information</h2>
             
@@ -132,7 +127,6 @@ const BookingDetailsPage = ({ params }) => {
 
         </div>
 
-        {/* Footer Note */}
         <div className="bg-gray-50 p-6 text-center text-gray-500 text-sm border-t border-gray-200">
             <p>Thank you for choosing <span className="font-bold text-rose-600">Care.xyz</span>.</p>
             <p className="mt-1">For any queries, please contact our support team.</p>

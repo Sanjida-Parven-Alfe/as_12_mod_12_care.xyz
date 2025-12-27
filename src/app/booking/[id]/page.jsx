@@ -14,13 +14,12 @@ const BookingPage = ({ params }) => {
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const fetchService = async () => {
       if (!id) return;
       try {
-     
-        const res = await fetch(`http://localhost:3000/api/services/${id}`);
+        // FIX: localhost সরানো হয়েছে, এখন এটি লাইভ লিংকে কাজ করবে
+        const res = await fetch(`/api/services/${id}`);
         const data = await res.json();
         if(data.service){
             setService(data.service);
@@ -69,7 +68,7 @@ const BookingPage = ({ params }) => {
                 <h2 className="text-3xl font-extrabold text-gray-900">Booking Details</h2>
                 <p className="text-gray-500 mt-2">Fill in the form to book this service.</p>
               </div>
-           
+            
               <BookingForm service={{...service, id: _id, title: title}} />
             </div>
           </div>
