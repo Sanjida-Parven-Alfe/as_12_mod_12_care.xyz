@@ -19,27 +19,26 @@ export const authOptions = {
           const user = await db.findOne({ email });
 
           if (!user) {
-            throw new Error("Invalid Email or Password");
+            throw new Error("User not found");
           }
 
           // পাসওয়ার্ড ম্যাচ করানো
-          const passwordMatch = await bcrypt.compare(password, user.password);
-          if (!passwordMatch) {
-            throw new Error("Invalid Email or Password");
+          const match = await bcrypt.compare(password, user.password);
+          if (!match) {
+             // পাসওয়ার্ড ভুল হলে null রিটার্ন করলে NextAuth বুঝবে এরর হয়েছে
+             return null;
           }
 
-          // ✅ রিটার্ন করার সময় _id কে string এ কনভার্ট করা জরুরি
           return {
-            id: user._id.toString(),
+            id: user._id.toString(), // _id কে String বানাচ্ছি
             name: user.name,
             email: user.email,
             image: user.image,
-            role: user.role,
+            role: user.role || "user",
           };
         } catch (error) {
-          console.log("Login Error:", error);
-          // null রিটার্ন করলে NextAuth বুঝবে লগইন ফেইল হয়েছে
-          return null; 
+          console.log(error);
+          return null;
         }
       },
     }),
@@ -51,12 +50,12 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // authorize থেকে পাওয়া id
+        token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && session.user) {
         session.user.id = token.id;
       }
       return session;

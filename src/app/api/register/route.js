@@ -5,31 +5,28 @@ import bcrypt from "bcryptjs";
 export const POST = async (request) => {
   try {
     const { name, email, password, image } = await request.json();
-
     const db = await dbConnect("users");
 
-    // ১. চেক করা ইউজার আগে থেকেই আছে কিনা
+    // চেক করা ইউজার আছে কিনা
     const existingUser = await db.findOne({ email });
     if (existingUser) {
-      return NextResponse.json({ message: "User already exists" }, { status: 400 });
+      return NextResponse.json({ message: "User exists" }, { status: 400 });
     }
 
-    // ২. পাসওয়ার্ড হ্যাশ করা (এটি মিসিং ছিল বা ভুল ছিল)
-    const hashedPassword = await bcrypt.hash(password, 14);
+    // ✅ পাসওয়ার্ড হ্যাশ করা (খুবই জরুরি)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ৩. ডাটাবেসে সেভ করা
-    const newUser = {
+    // ডাটাবেসে সেভ করা
+    await db.insertOne({
       name,
       email,
-      password: hashedPassword, // হ্যাশ করা পাসওয়ার্ড সেভ হচ্ছে
+      password: hashedPassword, // এনক্রিপ্ট করা পাসওয়ার্ড
       image: image || "",
       role: "user",
       createdAt: new Date(),
-    };
+    });
 
-    await db.insertOne(newUser);
-
-    return NextResponse.json({ message: "User Created Successfully" }, { status: 201 });
+    return NextResponse.json({ message: "User Created" }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
