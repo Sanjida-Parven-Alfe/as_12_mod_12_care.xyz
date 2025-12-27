@@ -11,7 +11,6 @@ const AboutPage = () => {
   return (
     <div className="bg-white min-h-screen">
       
-      {/* 1. Hero Section */}
       <div className="relative h-[400px] flex items-center justify-center">
         <Image
           src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1470&auto=format&fit=crop"
@@ -29,7 +28,7 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* 2. Our Story Section */}
+
       <div className="max-w-7xl mx-auto py-16 px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="relative h-96 w-full rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 transition-all duration-500">
@@ -53,7 +52,7 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* 3. Core Values (Cards) */}
+   
       <div className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -62,7 +61,7 @@ const AboutPage = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Card 1 */}
+         
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all text-center group">
               <div className="bg-rose-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-600 transition-colors">
                 <FaHandHoldingHeart className="text-2xl text-rose-600 group-hover:text-white" />
@@ -71,7 +70,7 @@ const AboutPage = () => {
               <p className="text-gray-500 text-sm">We treat every individual with kindness, empathy, and dignity.</p>
             </div>
 
-            {/* Card 2 */}
+        
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all text-center group">
               <div className="bg-rose-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-600 transition-colors">
                 <FaUserNurse className="text-2xl text-rose-600 group-hover:text-white" />
@@ -80,7 +79,7 @@ const AboutPage = () => {
               <p className="text-gray-500 text-sm">Our caregivers are certified, trained, and highly experienced.</p>
             </div>
 
-            {/* Card 3 */}
+     
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all text-center group">
               <div className="bg-rose-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-600 transition-colors">
                 <FaShieldAlt className="text-2xl text-rose-600 group-hover:text-white" />
@@ -89,7 +88,7 @@ const AboutPage = () => {
               <p className="text-gray-500 text-sm">We conduct rigorous background checks to ensure your safety.</p>
             </div>
 
-            {/* Card 4 */}
+    
             <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-all text-center group">
               <div className="bg-rose-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-600 transition-colors">
                 <FaUsers className="text-2xl text-rose-600 group-hover:text-white" />
@@ -101,7 +100,7 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* 4. Statistics Section */}
+  
       <div className="bg-gray-900 py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -125,14 +124,14 @@ const AboutPage = () => {
         </div>
       </div>
 
-      {/* 5. Team Section (Optional) */}
+ 
       <div className="max-w-7xl mx-auto py-16 px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900">Meet Our Team</h2>
           <p className="text-gray-500 mt-2">The minds behind the care.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Team Member 1 */}
+          
             <div className="text-center">
                 <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-rose-100">
                     <Image src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1374&auto=format&fit=crop" alt="CEO" fill className="object-cover" />
@@ -140,7 +139,7 @@ const AboutPage = () => {
                 <h3 className="text-xl font-bold text-gray-900">James Anderson</h3>
                 <p className="text-rose-600 text-sm font-medium">Founder & CEO</p>
             </div>
-             {/* Team Member 2 */}
+      
              <div className="text-center">
                 <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-rose-100">
                     <Image src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1376&auto=format&fit=crop" alt="Manager" fill className="object-cover" />
@@ -148,7 +147,7 @@ const AboutPage = () => {
                 <h3 className="text-xl font-bold text-gray-900">Sarah Connor</h3>
                 <p className="text-rose-600 text-sm font-medium">Head of Operations</p>
             </div>
-             {/* Team Member 3 */}
+    
              <div className="text-center">
                 <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden mb-4 border-4 border-rose-100">
                     <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1522&auto=format&fit=crop" alt="Doctor" fill className="object-cover" />
