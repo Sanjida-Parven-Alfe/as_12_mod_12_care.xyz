@@ -1,0 +1,61 @@
+import { dbConnect } from "@/lib/dbConnect";
+import { NextResponse } from "next/server";
+
+export const GET = async () => {
+  const db = await dbConnect("services");
+
+  const services = [
+    {
+      title: "Baby Sitting & Child Care",
+      description: "Experienced caregivers to look after your little ones with love and safety. We ensure a nurturing environment for their growth. Our babysitters are trained in first aid and child psychology.",
+      image: "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?q=80&w=1470&auto=format&fit=crop",
+      slug: "baby-care",
+      price: 500,
+      features: [
+        "Diaper Changing & Feeding",
+        "Engaging Playtime & Activities",
+        "Naptime Supervision",
+        "Basic First Aid Knowledge"
+      ]
+    },
+    {
+      title: "Elderly Care & Companionship",
+      description: "Dedicated support for seniors, assisting with daily activities, medication reminders, and providing joyful companionship. We treat them with the dignity and respect they deserve.",
+      image: "https://plus.unsplash.com/premium_photo-1661281397737-9b5d75b52beb?q=80&w=1469&auto=format&fit=crop",
+      slug: "elderly-care",
+      price: 800,
+      features: [
+        "Medication Reminders",
+        "Assistance with Walking/Mobility",
+        "Light Housekeeping",
+        "Friendly Companionship"
+      ]
+    },
+    {
+      title: "Special Needs & Sick Care",
+      description: "Professional assistance for sick or special needs family members right at home. Our caregivers are patient and skilled in handling various health conditions.",
+      image: "https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1468&auto=format&fit=crop",
+      slug: "sick-support",
+      price: 1000,
+      features: [
+        "Vital Signs Monitoring",
+        "Personal Hygiene Assistance",
+        "Post-Surgery Care Support",
+        "24/7 Emergency Availability"
+      ]
+    }
+  ];
+
+  try {
+    await db.deleteMany({});
+  
+    const result = await db.insertMany(services);
+
+    return NextResponse.json({ 
+      message: "Services Seeded Successfully!", 
+      result 
+    });
+  } catch (error) {
+    return NextResponse.json({ message: error.message });
+  }
+};
